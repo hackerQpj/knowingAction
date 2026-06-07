@@ -30,7 +30,10 @@ DEFAULT_STATE_FILE = os.path.join(os.path.dirname(__file__), ".index_alert_state
 
 def env(name, default=None):
     value = os.environ.get(name)
-    return value if value not in (None, "") else default
+    if value is None:
+        return default
+    value = value.strip()
+    return value if value else default
 
 
 def read_json(path, default):
