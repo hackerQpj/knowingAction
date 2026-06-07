@@ -1,0 +1,21 @@
+name: Index Alert
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  index-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run index alert
+        env:
+          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
+          DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+          INDEX_ALERT_THRESHOLD: "1.0"
+          INDEX_ALERT_STATE_FILE: /tmp/index_alert_state.json
+        run: python3 index_alert.py
